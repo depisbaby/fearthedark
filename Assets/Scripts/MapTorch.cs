@@ -73,7 +73,7 @@ public class MapTorch : NetworkBehaviour
                 safetyArea.SetActive(true);
             }
 
-            if (GameManager.Instance.localPlayer.transform != null)
+            if (GameManager.Instance.localPlayer != null)
             {
                 float distance = (GameManager.Instance.localPlayer.transform.position- transform.position).magnitude;
                 if((distance < renderDistance))

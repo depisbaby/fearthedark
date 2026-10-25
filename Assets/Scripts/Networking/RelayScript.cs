@@ -44,6 +44,8 @@ public class RelayScript : MonoBehaviour
 
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
             currentJoinCode = joinCode;
+            GameManager.Instance.joiningCodeTmp.text = joinCode;
+            
 
             Debug.Log("Your sharable session code is: " + joinCode);
 

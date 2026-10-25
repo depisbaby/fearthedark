@@ -28,11 +28,7 @@ public class GameManager : NetworkBehaviour
     void Start()
     {
         
-        
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
-        DevModePrep();
+        //DevModePrep();
     }
 
     async void DevModePrep()
@@ -95,7 +91,11 @@ public class GameManager : NetworkBehaviour
     }
 
     public void StartGame() {
-        
+
+        MainMenu.Instance.Close();
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void PlayerJoined(Player player)
