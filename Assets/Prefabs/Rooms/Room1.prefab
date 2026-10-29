@@ -87,8 +87,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Room
   ShowTopMostFoldoutHeaderGroup: 1
-  originalConnections: 01000000010000000100000000000000
+  originalConnections: 02000000020000000200000001000000
   connections: 
+  nestedNetworkObjects:
+  - {fileID: 2063231458455617139}
+  - {fileID: 1503717204771174146}
+  - {fileID: 372104543213476696}
+  - {fileID: 6317823447182886065}
+  - {fileID: 318786634766991197}
+  - {fileID: 4253201706604150315}
+  - {fileID: 1780852030736099128}
+  - {fileID: 7415729292452097578}
 --- !u!114 &1811393793903903538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,6 +205,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 613076cc582dc7e49b4e06f6d9a5be64, type: 3}
+--- !u!114 &7415729292452097578 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8326892885536350265, guid: 613076cc582dc7e49b4e06f6d9a5be64, type: 3}
+  m_PrefabInstance: {fileID: 1542173319016467987}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
 --- !u!4 &8355734331930230860 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7391372826972982879, guid: 613076cc582dc7e49b4e06f6d9a5be64, type: 3}
@@ -262,6 +282,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
+--- !u!114 &6317823447182886065 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7715190804601606369, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
+  m_PrefabInstance: {fileID: 4376575090202760272}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
 --- !u!4 &6331379835582337546 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7737504878279198298, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
@@ -510,6 +541,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
+--- !u!114 &4253201706604150315 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7715190804601606369, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
+  m_PrefabInstance: {fileID: 5771280742614707914}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
 --- !u!4 &4284778066300184720 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7737504878279198298, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
@@ -741,6 +783,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7391372826972982879, guid: 613076cc582dc7e49b4e06f6d9a5be64, type: 3}
   m_PrefabInstance: {fileID: 7726430432460392193}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1780852030736099128 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8326892885536350265, guid: 613076cc582dc7e49b4e06f6d9a5be64, type: 3}
+  m_PrefabInstance: {fileID: 7726430432460392193}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
 --- !u!1001 &7942139950855605177
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -802,6 +855,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
+--- !u!114 &372104543213476696 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7715190804601606369, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
+  m_PrefabInstance: {fileID: 7942139950855605177}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
 --- !u!4 &385345314766245347 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7737504878279198298, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
@@ -873,6 +937,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7737504878279198298, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
   m_PrefabInstance: {fileID: 8033669573424066492}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &318786634766991197 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7715190804601606369, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
+  m_PrefabInstance: {fileID: 8033669573424066492}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
 --- !u!1001 &8625465570232102546
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -934,6 +1009,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
+--- !u!114 &2063231458455617139 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7715190804601606369, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
+  m_PrefabInstance: {fileID: 8625465570232102546}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
 --- !u!4 &2076982471150594248 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7737504878279198298, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
@@ -1067,3 +1153,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7737504878279198298, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
   m_PrefabInstance: {fileID: 9209751271167551459}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1503717204771174146 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7715190804601606369, guid: a215cf951363b0442b03ce51f3e85af3, type: 3}
+  m_PrefabInstance: {fileID: 9209751271167551459}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject

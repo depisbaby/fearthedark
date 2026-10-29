@@ -112,7 +112,11 @@ public class RelayScript : MonoBehaviour
     {
         currentJoinCode = "";
         //Console.Instance.ShowMessageInConsole("RelayScript.cs", "Signing out from relay service...");
-        AuthenticationService.Instance.SignOut();
+        if (AuthenticationService.Instance.IsSignedIn)
+        {
+
+            AuthenticationService.Instance.SignOut();
+        }
     }
 
     public void GetJoiningCode()

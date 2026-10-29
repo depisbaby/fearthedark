@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Rendering;
 using TMPro;
+using System.Threading.Tasks;
 
 public class Player : NetworkBehaviour
 {
@@ -42,7 +43,7 @@ public class Player : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        
         tick = Random.Range(0, 9999);
         PlayerMovementTutorial movement = gameObject.GetComponent<PlayerMovementTutorial>();
         if (!IsOwner)
@@ -52,12 +53,14 @@ public class Player : NetworkBehaviour
         }
         else
         {
+
+            screenSpaceMaterial.SetFloat("_White", 5.0f);
+            screenSpaceMaterial.SetFloat("_Edge1", 5.0f);
             PlayerCam.Instance.orientation = orientation;
             MoveCamera.Instance.cameraPosition = cameraPosition;
             playerVisuals.ModelHideFromLocal();
             SessionManager.Instance.playerPrefabDone = true;
             GameManager.Instance.localPlayer = this;
-
 
         }
 
@@ -178,5 +181,28 @@ public class Player : NetworkBehaviour
         {
             isInSafety = true;
         }
+    }
+
+    [ClientRpc] public void TeleportClientRpc(Vector3 destination)
+    {
+        if (IsOwner)
+        {
+            Teleport(destination);
+        }
+    }
+    async void Teleport(Vector3 destination)
+    {
+        Debug.Log("Teleporting player to " + destination + "...");
+
+        while (true)
+        {
+            transform.position = destination;
+            await Task.Delay(100);
+            if((destination-transform.position).magnitude < 1.0f){
+                break;
+            }
+        }
+
+
     }
 }

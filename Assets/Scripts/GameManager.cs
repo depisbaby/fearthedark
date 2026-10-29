@@ -27,7 +27,8 @@ public class GameManager : NetworkBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        Physics.IgnoreLayerCollision(0, 7);
+        Physics.IgnoreLayerCollision(0, 9);
         //DevModePrep();
     }
 
@@ -90,12 +91,30 @@ public class GameManager : NetworkBehaviour
         
     }
 
-    public void StartGame() {
+    public async void StartGame() {
 
         MainMenu.Instance.Close();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        if (IsServer)
+        {
+            MapManager.Instance.GenerateMap();
+
+            while (!MapManager.Instance.isMapGenerated)
+            {
+                await Task.Yield();
+            }
+
+
+            foreach (Player player in players)
+            {
+                player.TeleportClientRpc(MapManager.Instance.startingRoom.transform.position + new Vector3(0, 2, 0));
+            }
+
+        }
+
     }
 
     public void PlayerJoined(Player player)
@@ -103,6 +122,11 @@ public class GameManager : NetworkBehaviour
         if (IsServer)
         {
             players.Add(player);
+
+            if(MapManager.Instance.startingRoom != null)
+            {
+                player.TeleportClientRpc(MapManager.Instance.startingRoom.transform.position + new Vector3(0,2,0));
+            }
         }
     }
 

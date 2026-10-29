@@ -3,39 +3,33 @@ using UnityEngine;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine.UIElements;
-using System.Linq;
+using UnityEngine.Rendering;
 
 public class Room : NetworkBehaviour
 {
     public ConnectionType[] originalConnections;
-    public ConnectionType[] connections;
+    [HideInInspector]public ConnectionType[] connections;
 
-    public Room()
-    {
-        connections = originalConnections.ToArray();
-    }
+    public List<NestedNetworkObjectSpawner> nestedNetworkObjects;
 
     public enum ConnectionType
     {
-        None = 0,
-        Mansion = 1,
+        ET = 0, //Empty tile. Do not use this when assigning side connections of a room in the inspector.
+        NoConnection = 1,
+        Mansion = 2,
     }
 
     public Vector2 DirectionOfSide(int side)
     {
         switch (side) { 
             case 0:
-                return new Vector2(1, 0);
-                break;
-            case 1:
                 return new Vector2(0, 1);
-                break;
+            case 1:
+                return new Vector2(1, 0);
             case 2:
-                return new Vector2(-1, 0);
-                break;
-            case 3:
                 return new Vector2(0, -1);
-                break;
+            case 3:
+                return new Vector2(-1, 0);
             default: return new Vector2(0, 0);
         }
         
@@ -69,6 +63,27 @@ public class Room : NetworkBehaviour
                 connections[2] = originalConnections[2];
                 connections[3] = originalConnections[3];
                 break;
+        }
+    }
+
+    public void Init()
+    {
+        connections = new ConnectionType[4];
+        connections[0] = originalConnections[0];
+        connections[1] = originalConnections[1];
+        connections[2] = originalConnections[2];
+        connections[3] = originalConnections[3];
+    }
+
+    public void NetworkInit()
+    {
+        if (IsServer)
+        {
+            foreach (NestedNetworkObjectSpawner networkObject in nestedNetworkObjects)
+            {
+                networkObject.SpawnNestedObject();
+                //networkObject.TrySetParent(GetComponent<NetworkObject>(), true);
+            }
         }
     }
 

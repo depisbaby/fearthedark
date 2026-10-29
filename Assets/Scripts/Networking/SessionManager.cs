@@ -45,9 +45,14 @@ public class SessionManager : MonoBehaviour
 
     private void Start()
     {
-        Physics.IgnoreLayerCollision(0, 7);
-        Physics.IgnoreLayerCollision(0, 9);
+        
     }
+
+    private void OnDestroy()
+    {
+        ExitGame();
+    }
+
     [AtomicCommand(name:"join", description:"")]
     public async void AttemptJoining(string joinCode)
     {
@@ -57,6 +62,7 @@ public class SessionManager : MonoBehaviour
         if(joinCode == "")
         {
             MainMenu.Instance.DisplayConnectionError("Please insert either a joining code or an IP address.");
+            busy = false;
             return;
         }
         
@@ -117,12 +123,14 @@ public class SessionManager : MonoBehaviour
 
         NetworkManager.Singleton.NetworkConfig.NetworkTransport = soloTransport;
 
-        if (!NetworkManager.Singleton.StartHost())
+        NetworkManager.Singleton.StartHost();
+        
+        while(!NetworkManager.Singleton.IsListening)
         {
-            MainMenu.Instance.DisplayConnectionError("Error (116)");
-            Debug.Log("Couldn't start host!");
-            
+            await Task.Yield();
         }
+
+        //await Task.Delay(5000);
 
         GameManager.Instance.StartGame();
         busy = false;
