@@ -23,7 +23,10 @@ public class MapManager : NetworkBehaviour
     public bool isMapGenerated;
     bool isGenerating;
     List<Vector2> openPositions = new List<Vector2>();
-    public Room startingRoom;
+    [HideInInspector]public Room startingRoom;
+
+    [HideInInspector] public List<Door> doors = new List<Door>();
+    [HideInInspector] public List<Room> rooms = new List<Room>();
 
 
 
@@ -56,10 +59,22 @@ public class MapManager : NetworkBehaviour
         while (openPositions.Count > 0)
         {
             await Task.Delay(1);
-            Debug.Log("Number of open positions: "+ openPositions.Count);
+            //Debug.Log("Number of open positions: "+ openPositions.Count);
             Vector2 pos = openPositions[Random.Range(0,openPositions.Count-1)];
             ResolveOpenPosition(pos);
         }
+
+        await Task.Delay(100);
+
+        Debug.Log("Fixing doors...");
+        FixDoors();
+
+        await Task.Delay(1000);
+
+        Debug.Log("Baking nav mesh...");
+        NavMeshManager.Instance.Bake();
+
+        CloseAllDoors();
 
         Debug.Log("Map generated!");
 
@@ -83,7 +98,7 @@ public class MapManager : NetworkBehaviour
         int i = 0;
         foreach(Room.ConnectionType connection in newRoom.connections)
         {
-            Debug.Log("hep");
+            //Debug.Log("hep");
             if(connection != Room.ConnectionType.NoConnection)
             {
                 Vector2 pos = new Vector2(x, z) + newRoom.DirectionOfSide(i);
@@ -99,7 +114,7 @@ public class MapManager : NetworkBehaviour
         no.Spawn();
         newRoom.NetworkInit();
 
-        Debug.Log("Placed a room.");
+        //Debug.Log("Placed a room.");
         return newRoom;
     }
 
@@ -200,4 +215,47 @@ public class MapManager : NetworkBehaviour
         }
     }
 
+    public void AddDoor(Door door)
+    {
+        doors.Add(door);
+    }
+
+    void FixDoors()
+    {
+        List<Vector3> doorPositions = new List<Vector3>();
+        List<Door> doorsToRemove = new List<Door>();
+
+        foreach(Door door in doors)
+        {
+            door.transform.position = new Vector3(Mathf.Round(door.transform.position.x), Mathf.Round(door.transform.position.y), Mathf.Round(door.transform.position.z));
+
+            if (doorPositions.Contains(door.transform.position))
+            {
+                door.GetComponent<NetworkObject>().Despawn();
+                Destroy(door);
+            }
+            else
+            {
+                doorPositions.Add(door.transform.position);
+                door.Force(true);
+            }
+        }
+
+        doors.RemoveAll(item => item == null);
+
+    }
+
+    void CloseAllDoors()
+    {
+        foreach (Door door in doors)
+        {
+            if (door == null) continue;
+            door.Force(false);
+        }
+    }
+
+    public void AddRoom(Room room)
+    {
+        rooms.Add(room);
+    }
 }

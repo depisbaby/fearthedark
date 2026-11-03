@@ -11,6 +11,7 @@ public class Room : NetworkBehaviour
     [HideInInspector]public ConnectionType[] connections;
 
     public List<NestedNetworkObjectSpawner> nestedNetworkObjects;
+    public GameObject monsterSpawn;
 
     public enum ConnectionType
     {
@@ -79,6 +80,7 @@ public class Room : NetworkBehaviour
     {
         if (IsServer)
         {
+            MapManager.Instance.AddRoom(this);
             foreach (NestedNetworkObjectSpawner networkObject in nestedNetworkObjects)
             {
                 networkObject.SpawnNestedObject();

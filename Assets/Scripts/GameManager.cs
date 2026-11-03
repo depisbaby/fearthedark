@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
@@ -107,10 +108,12 @@ public class GameManager : NetworkBehaviour
                 await Task.Yield();
             }
 
+            AiManager.Instance.SpawnMonsters(1);
+
 
             foreach (Player player in players)
             {
-                player.TeleportClientRpc(MapManager.Instance.startingRoom.transform.position + new Vector3(0, 2, 0));
+                player.TeleportClientRpc(MapManager.Instance.startingRoom.transform.position + new Vector3(UnityEngine.Random.Range(-1.0f,1.0f), 2, UnityEngine.Random.Range(-1.0f, 1.0f)));
             }
 
         }
@@ -125,7 +128,7 @@ public class GameManager : NetworkBehaviour
 
             if(MapManager.Instance.startingRoom != null)
             {
-                player.TeleportClientRpc(MapManager.Instance.startingRoom.transform.position + new Vector3(0,2,0));
+                player.TeleportClientRpc(MapManager.Instance.startingRoom.transform.position + new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), 2, UnityEngine.Random.Range(-1.0f, 1.0f)));
             }
         }
     }

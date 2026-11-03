@@ -49,4 +49,12 @@ public class AiManager : NetworkBehaviour
         }
     }
 
+    public void SpawnMonsters(int difficulty)
+    {
+        for (int i = 0; i < difficulty; i++)
+        {
+            
+        }
+    }
+
 }

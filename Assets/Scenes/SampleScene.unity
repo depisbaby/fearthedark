@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 47712097}
   - component: {fileID: 47712096}
+  - component: {fileID: 47712098}
   m_Layer: 0
   m_Name: NavMesh
   m_TagString: Untagged
@@ -155,7 +156,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_GenerateLinks: 0
@@ -164,7 +165,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.083333336
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
@@ -183,6 +184,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &47712098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 47712095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2be17c4516298a944b0c731938046e2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NavMeshManager
 --- !u!1 &72140977
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,10 +361,12 @@ MonoBehaviour:
   - {fileID: 5024600886518601404, guid: edccc67c4bcdacc48be4f621feab17d2, type: 3}
   - {fileID: 5024600886518601404, guid: 79717cccdec13f64093b8b67e4aa5bbe, type: 3}
   - {fileID: 5024600886518601404, guid: 0cda60dc8d932e64aa8d21261943f355, type: 3}
+  - {fileID: 5024600886518601404, guid: 5a1bc3e8b119c214fa6c0d89227f4c08, type: 3}
   startingRooms:
   - {fileID: 5675444758471970126, guid: 7f9fbdfc3959e9349854f70cd21937f6, type: 3}
   isMapGenerated: 0
   startingRoom: {fileID: 0}
+  doors: []
 --- !u!4 &136544061
 Transform:
   m_ObjectHideFlags: 0
@@ -512,7 +527,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 127
+    m_Bits: 2175
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: e0c4f2c58e0047942b3b8afd7509e6a1, type: 2}
   m_TargetDisplay: 0

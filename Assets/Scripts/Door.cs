@@ -24,7 +24,7 @@ public class Door : NetworkBehaviour, I_Interactable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        MapManager.Instance.AddDoor(this);
     }
 
     // Update is called once per frame
@@ -99,6 +99,19 @@ public class Door : NetworkBehaviour, I_Interactable
         keyObject.SetActive(true);
         if (side) {
             keyObject.transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+    }
+
+    public void Force(bool open)
+    {
+        if (open) {
+            IsOpen = true;
+            targetRotation = openRotation1.transform.rotation;
+        }
+        else
+        {
+            IsOpen = false;
+            targetRotation = closedRotation.rotation;
         }
     }
 }
