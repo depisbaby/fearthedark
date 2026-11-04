@@ -13,6 +13,9 @@ public class Room : NetworkBehaviour
     public List<NestedNetworkObjectSpawner> nestedNetworkObjects;
     public GameObject monsterSpawn;
 
+    [HideInInspector]public int gridX;
+    [HideInInspector] public int gridY;
+
     public enum ConnectionType
     {
         ET = 0, //Empty tile. Do not use this when assigning side connections of a room in the inspector.

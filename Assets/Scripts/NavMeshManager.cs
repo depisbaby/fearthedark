@@ -13,7 +13,7 @@ public class NavMeshManager : MonoBehaviour
         navMesh = GetComponent<NavMeshSurface>();
     }
 
-    private NavMeshSurface navMesh;
+    public NavMeshSurface navMesh;
 
 
     public void Bake()

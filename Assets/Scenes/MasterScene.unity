@@ -228,6 +228,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AiManager
   ShowTopMostFoldoutHeaderGroup: 1
   playerOutOfSafety: []
+  monsterLibrary:
+  - {fileID: 8012306289351800063, guid: 4b024480c2593944590a51e12ac7c858, type: 3}
 --- !u!4 &72140979
 Transform:
   m_ObjectHideFlags: 0
@@ -367,6 +369,7 @@ MonoBehaviour:
   isMapGenerated: 0
   startingRoom: {fileID: 0}
   doors: []
+  rooms: []
 --- !u!4 &136544061
 Transform:
   m_ObjectHideFlags: 0

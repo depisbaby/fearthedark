@@ -243,6 +243,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4120725939438316055}
     m_Modifications:
+    - target: {fileID: 2256583439296633346, guid: b987b946bf3efc14ab978ede40101b1f, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 8157030184022485552, guid: b987b946bf3efc14ab978ede40101b1f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.79
@@ -305,6 +309,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4120725939438316055}
     m_Modifications:
+    - target: {fileID: 1087924816389425566, guid: a6348f6f5053e9e429d64a95cc351c3b, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 2241703468638987520, guid: a6348f6f5053e9e429d64a95cc351c3b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.914661
@@ -348,6 +356,10 @@ PrefabInstance:
     - target: {fileID: 2848858700390554747, guid: a6348f6f5053e9e429d64a95cc351c3b, type: 3}
       propertyPath: m_Name
       value: FancyChair
+      objectReference: {fileID: 0}
+    - target: {fileID: 2848858700390554747, guid: a6348f6f5053e9e429d64a95cc351c3b, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -518,6 +530,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 7fe354060e2d40f41a77ead8857cc70d, type: 3}
       propertyPath: m_Name
       value: rubble
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7fe354060e2d40f41a77ead8857cc70d, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

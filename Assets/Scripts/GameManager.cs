@@ -101,20 +101,27 @@ public class GameManager : NetworkBehaviour
 
         if (IsServer)
         {
-            MapManager.Instance.GenerateMap();
-
-            while (!MapManager.Instance.isMapGenerated)
+            if(MapManager.Instance != null)
             {
-                await Task.Yield();
+
+                MapManager.Instance.GenerateMap();
+
+                while (!MapManager.Instance.isMapGenerated)
+                {
+                    await Task.Yield();
+                }
+
+                await Task.Delay(100);
+
+                AiManager.Instance.SpawnMonsters(1);
+
+                foreach (Player player in players)
+                {
+                    player.TeleportClientRpc(MapManager.Instance.startingRoom.transform.position + new Vector3(UnityEngine.Random.Range(-1.0f,1.0f), 2, UnityEngine.Random.Range(-1.0f, 1.0f)));
+                }
             }
 
-            AiManager.Instance.SpawnMonsters(1);
 
-
-            foreach (Player player in players)
-            {
-                player.TeleportClientRpc(MapManager.Instance.startingRoom.transform.position + new Vector3(UnityEngine.Random.Range(-1.0f,1.0f), 2, UnityEngine.Random.Range(-1.0f, 1.0f)));
-            }
 
         }
 

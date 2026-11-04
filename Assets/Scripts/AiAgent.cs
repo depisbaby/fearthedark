@@ -1,6 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 using UnityEngine.AI;
+using System.Threading.Tasks;
 
 public class AiAgent : NetworkBehaviour
 {
@@ -12,7 +13,7 @@ public class AiAgent : NetworkBehaviour
         Idle=1,
         Moving=2
     }
-    protected NavMeshAgent nav;
+    public NavMeshAgent nav;
     public AiState state;
     protected int tick;
 
@@ -27,7 +28,10 @@ public class AiAgent : NetworkBehaviour
     void Start()
     {
         tick = Random.Range(0, 9999);
-        
+        Debug.Log("Position: " + nav.transform.position);
+        Debug.Log("Agent enabled: " + nav.enabled);
+        Debug.Log("On NavMesh: " + nav.isOnNavMesh);
+        Debug.Log("Agent active: " + nav.isActiveAndEnabled);
         ChildStart();
     }
 
@@ -61,6 +65,7 @@ public class AiAgent : NetworkBehaviour
 
     protected void CheckPath()
     {
+
         //Debug.Log("2");
         if(nav.remainingDistance < 1.0f || nav.pathStatus == NavMeshPathStatus.PathPartial || nav.pathStatus == NavMeshPathStatus.PathInvalid)
         {
@@ -85,6 +90,24 @@ public class AiAgent : NetworkBehaviour
     {
 
         //Child implementation...
+    }
+
+    protected void Roam()
+    {
+        Vector3 playerPos = GameManager.Instance.players[Random.Range(0, GameManager.Instance.players.Count - 1)].transform.position;
+        Room room = MapManager.Instance.GetRandomNearbyRoom(MapManager.Instance.NearestRoomFromPosition(playerPos), 1);
+        if(room.monsterSpawn != null)
+        {
+            SetDestination(room.monsterSpawn.transform.position);
+        }
+        
+    }
+
+    protected async void Idle(int millisecs)
+    {
+        state = AiState.Idle;
+        await Task.Delay(millisecs);
+        state = AiState.None;
     }
 
 }

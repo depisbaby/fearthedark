@@ -89,6 +89,8 @@ public class MapManager : NetworkBehaviour
         newRoom.transform.rotation = Quaternion.Euler(0, rotation * 90, 0);
         newRoom.SetRotation(rotation);
         baseMap[x,z] = newRoom;
+        newRoom.gridX = x;
+        newRoom.gridY = y;
         
         if(openPositions.Contains(new Vector2(x, z)))
         {
@@ -227,9 +229,9 @@ public class MapManager : NetworkBehaviour
 
         foreach(Door door in doors)
         {
-            door.transform.position = new Vector3(Mathf.Round(door.transform.position.x), Mathf.Round(door.transform.position.y), Mathf.Round(door.transform.position.z));
+            Vector3 doorPos = new Vector3(Mathf.Round(door.transform.position.x), Mathf.Round(door.transform.position.y), Mathf.Round(door.transform.position.z));
 
-            if (doorPositions.Contains(door.transform.position))
+            if (doorPositions.Contains(doorPos))
             {
                 door.GetComponent<NetworkObject>().Despawn();
                 Destroy(door);
@@ -257,5 +259,40 @@ public class MapManager : NetworkBehaviour
     public void AddRoom(Room room)
     {
         rooms.Add(room);
+    }
+
+    public Room NearestRoomFromPosition(Vector3 pos)
+    {
+        Room best = null;
+        float bestValue = 1000.0f;
+        foreach (Room room in rooms)
+        {
+            float value = (room.transform.position - pos).magnitude;
+            if(value < bestValue)
+            {
+                bestValue = value;
+                best = room;
+            }
+        }
+        return best;
+    }
+
+    public Room GetRandomNearbyRoom(Room center, int range)
+    {
+        int x = Random.Range(-range, range+1);
+        int y = Random.Range(-range, range+1);
+        
+
+        if(center.gridX + x < 0 || center.gridX + x >= mapSize)
+        {
+            x = 0;
+        }
+
+        if (center.gridY + y < 0 || center.gridY + y >= mapSize)
+        {
+            y = 0;
+        }
+
+        return baseMap[center.gridX + x, center.gridY + y];
     }
 }

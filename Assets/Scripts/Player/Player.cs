@@ -29,11 +29,16 @@ public class Player : NetworkBehaviour
 
     [SerializeField] AudioSource footStepsAudioSource;
     [SerializeField] Material screenSpaceMaterial;
+
+    [SerializeField] Color normalColor;
+    [SerializeField] Color huntingColor;
     public int safetyLevel;
     bool isInSafety;
     int tick;
-    float ssWhite;
+    Color ssColor;
     float ssEdge;
+
+    bool isBlind;
 
     private void Awake()
     {
@@ -54,7 +59,7 @@ public class Player : NetworkBehaviour
         else
         {
 
-            screenSpaceMaterial.SetFloat("_White", 5.0f);
+            screenSpaceMaterial.SetColor("_Color", normalColor);
             screenSpaceMaterial.SetFloat("_Edge1", 5.0f);
             PlayerCam.Instance.orientation = orientation;
             MoveCamera.Instance.cameraPosition = cameraPosition;
@@ -79,18 +84,25 @@ public class Player : NetworkBehaviour
 
         if (IsOwner)
         {
+            if (isBlind)
+            {
+                ssEdge = Mathf.Lerp(ssEdge, 100.0f, Time.deltaTime * 1);
+                screenSpaceMaterial.SetFloat("_Edge1", ssEdge);
+                return;
+            }
+
             if(safetyLevel <= 0)
             {
-                ssWhite = Mathf.Lerp(ssWhite, 0.0f, Time.deltaTime * 3);
-                ssEdge = Mathf.Lerp(ssEdge, 0.5f, Time.deltaTime * 3);
-                screenSpaceMaterial.SetFloat("_White", ssWhite);
+                ssColor = Color.Lerp(ssColor, huntingColor, Time.deltaTime * 3);
+                ssEdge = Mathf.Lerp(ssEdge, 0.5f, Time.deltaTime * 5);
+                screenSpaceMaterial.SetColor("_Color", ssColor);
                 screenSpaceMaterial.SetFloat("_Edge1", ssEdge);
             }
             else
             {
-                ssWhite = Mathf.Lerp(ssWhite, 5.0f, Time.deltaTime * 1);
-                ssEdge = Mathf.Lerp(ssEdge, 5.0f, Time.deltaTime * 1);
-                screenSpaceMaterial.SetFloat("_White", ssWhite);
+                ssColor = Color.Lerp(ssColor, normalColor, Time.deltaTime * 3);
+                ssEdge = Mathf.Lerp(ssEdge, 5.0f, Time.deltaTime * 5);
+                screenSpaceMaterial.SetColor("_Color", ssColor);
                 screenSpaceMaterial.SetFloat("_Edge1", ssEdge);
             }
         }

@@ -10,6 +10,16 @@ public class Crawler : AiAgent
             if(AiManager.Instance.playerOutOfSafety.Count != 0 && AiManager.Instance.playerOutOfSafety[0] != null)
             {
                 SetDestination(AiManager.Instance.playerOutOfSafety[0].transform.position);
+                return;
+            }
+
+            if (Random.Range(0,4)==0) //25%
+            {
+                Roam();
+            }
+            else 
+            {
+                Idle(Random.Range(3000, 100000));
             }
         }
     }

@@ -12,6 +12,9 @@ public class AiManager : NetworkBehaviour
     }
 
     public List<Player> playerOutOfSafety;
+    public List<AiAgent> monsterLibrary;
+
+    Crawler crawler;
 
     int tick;
 
@@ -49,11 +52,27 @@ public class AiManager : NetworkBehaviour
         }
     }
 
-    public void SpawnMonsters(int difficulty)
+    public void SpawnMonsters(int count)
     {
-        for (int i = 0; i < difficulty; i++)
+        if(!IsServer) return;
+
+        for (int i = 0; i < count; i++)
         {
-            
+            Vector3 spawnPos = MapManager.Instance.rooms[1].monsterSpawn.transform.position;
+
+            if(crawler == null)
+            {
+                Crawler _crawler = Instantiate(monsterLibrary[0].gameObject).GetComponent<Crawler>();
+                _crawler.nav.Warp(spawnPos);
+                crawler = _crawler;
+
+                NetworkObject no = _crawler.gameObject.GetComponent<NetworkObject>();
+                no.Spawn();
+            }
+            else
+            {
+
+            }
         }
     }
 
