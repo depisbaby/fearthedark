@@ -39,6 +39,7 @@ public class Player : NetworkBehaviour
     float ssEdge;
 
     bool isBlind;
+    bool isAlive;
 
     private void Awake()
     {
@@ -216,5 +217,15 @@ public class Player : NetworkBehaviour
         }
 
 
+    }
+
+    public void SetBlind(bool blind)
+    {
+        isBlind = blind;
+    }
+
+    public void Kill()
+    {
+        SetBlind(true);
     }
 }

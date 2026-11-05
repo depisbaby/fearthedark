@@ -28,4 +28,14 @@ public class Crawler : AiAgent
     {
         anim.speed = 1.5f;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!IsServer) return;
+
+        if(other.gameObject.layer == 3)//is player
+        {
+
+        }
+    }
 }
