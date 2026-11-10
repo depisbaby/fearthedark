@@ -90,7 +90,7 @@ public class MapManager : NetworkBehaviour
         newRoom.SetRotation(rotation);
         baseMap[x,z] = newRoom;
         newRoom.gridX = x;
-        newRoom.gridY = y;
+        newRoom.gridY = z;
         
         if(openPositions.Contains(new Vector2(x, z)))
         {
@@ -267,6 +267,7 @@ public class MapManager : NetworkBehaviour
         float bestValue = 1000.0f;
         foreach (Room room in rooms)
         {
+
             float value = (room.transform.position - pos).magnitude;
             if(value < bestValue)
             {
@@ -274,6 +275,7 @@ public class MapManager : NetworkBehaviour
                 best = room;
             }
         }
+        Debug.Log("Closest room: " + best.gridX+  ", "+best.gridY);
         return best;
     }
 
@@ -292,7 +294,7 @@ public class MapManager : NetworkBehaviour
         {
             y = 0;
         }
-
+        Debug.Log("Chosen neighbor: "+ (center.gridX + x)+ ", "+(center.gridY + y));
         return baseMap[center.gridX + x, center.gridY + y];
     }
 }

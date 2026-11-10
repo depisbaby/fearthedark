@@ -2,24 +2,30 @@ using UnityEngine;
 
 public class Crawler : AiAgent
 {
+    public Player hunted;
+
     protected override void AiBehaviour()
     {
+
+        CheckHunting();
+
+        if(hunted != null)
+        {
+            SetDestination(hunted.transform.position);
+            return;
+        }
+
         //Debug.Log("Ai behavi");
         if (state == AiState.None)
         {
-            if(AiManager.Instance.playerOutOfSafety.Count != 0 && AiManager.Instance.playerOutOfSafety[0] != null)
-            {
-                SetDestination(AiManager.Instance.playerOutOfSafety[0].transform.position);
-                return;
-            }
-
+            
             if (Random.Range(0,4)==0) //25%
             {
                 Roam();
             }
             else 
             {
-                Idle(Random.Range(3000, 100000));
+                Idle(5*1000);
             }
         }
     }
@@ -29,13 +35,25 @@ public class Crawler : AiAgent
         anim.speed = 1.5f;
     }
 
-    private void OnTriggerEnter(Collider other)
+    void CheckHunting()
     {
-        if (!IsServer) return;
-
-        if(other.gameObject.layer == 3)//is player
+        if(AiManager.Instance.playerOutOfSafety.Count > 0)
         {
+            if (AiManager.Instance.playerOutOfSafety.Contains(hunted))
+            {
+                return;
+            }
 
+            foreach(Player player in AiManager.Instance.playerOutOfSafety)
+            {
+                if (player.isDead.Value) continue;
+                hunted = player;
+            }
+        }
+        else
+        {
+            hunted = null;
         }
     }
+
 }

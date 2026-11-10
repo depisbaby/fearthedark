@@ -19,6 +19,8 @@ public class AiAgent : NetworkBehaviour
 
     public Animator anim;
 
+    protected int idleRemaining;
+
     private void Awake()
     {
         nav = GetComponent<NavMeshAgent>();
@@ -47,15 +49,19 @@ public class AiAgent : NetworkBehaviour
             {
                 moving.Value = false;
             }
+
+            anim.SetBool("moving", moving.Value);
         }
 
-        anim.SetBool("moving", moving.Value);
     }
 
     private void FixedUpdate()
     {
+        if (!IsServer) return;
+
         tick++;
         if (tick % 25 == 0) {
+
             CheckPath();
             AiBehaviour();
         }
@@ -65,20 +71,22 @@ public class AiAgent : NetworkBehaviour
 
     protected void CheckPath()
     {
+        if (nav.hasPath == false || nav.pathPending) return;
 
-        //Debug.Log("2");
         if(nav.remainingDistance < 1.0f || nav.pathStatus == NavMeshPathStatus.PathPartial || nav.pathStatus == NavMeshPathStatus.PathInvalid)
         {
+            
             nav.ResetPath();
             state = AiState.None;
+            Debug.Log("Path cleared");
         }
         
     }
 
     protected void SetDestination(Vector3 position)
     {
-        nav.SetDestination(position);
         state = AiState.Moving;
+        nav.SetDestination(position);
     }
     protected virtual void AiBehaviour()
     {
@@ -96,18 +104,30 @@ public class AiAgent : NetworkBehaviour
     {
         Vector3 playerPos = GameManager.Instance.players[Random.Range(0, GameManager.Instance.players.Count - 1)].transform.position;
         Room room = MapManager.Instance.GetRandomNearbyRoom(MapManager.Instance.NearestRoomFromPosition(playerPos), 1);
-        if(room.monsterSpawn != null)
+        //Room room = MapManager.Instance.NearestRoomFromPosition(playerPos);
+        if (room == null) return;
+        if (room.monsterSpawn != null)
         {
             SetDestination(room.monsterSpawn.transform.position);
         }
         
     }
 
-    protected async void Idle(int millisecs)
+    protected async void Idle(int time)
     {
+        Debug.Log("Idling");
         state = AiState.Idle;
-        await Task.Delay(millisecs);
+        await Task.Delay(time);
+        if (state != AiState.Idle) return;
+        state = AiState.None;
+        Debug.Log("Done idling");
+    }
+
+    protected void Interrupt()
+    {
+        nav.ResetPath();
         state = AiState.None;
     }
+
 
 }
