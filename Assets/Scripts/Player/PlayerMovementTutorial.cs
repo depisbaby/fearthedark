@@ -34,12 +34,14 @@ public class PlayerMovementTutorial : MonoBehaviour
     Vector3 moveDirection;
 
     Rigidbody rb;
-
+    Player player;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        player = GetComponent<Player>();
 
         readyToJump = true;
     }
@@ -66,20 +68,28 @@ public class PlayerMovementTutorial : MonoBehaviour
 
     private void MyInput()
     {
+        if (player.isDead.Value)
+        {
+            player.isWalking.Value = 0;
+            horizontalInput = 0;
+            verticalInput = 0;
+            return;
+        }
+
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        if(GameManager.Instance.localPlayer != null && (horizontalInput != 0 || verticalInput > 0))
+        if(horizontalInput != 0 || verticalInput > 0)
         {
-            GameManager.Instance.localPlayer.isWalking.Value = 1;
+            player.isWalking.Value = 1;
         }
-        else if(GameManager.Instance.localPlayer != null && verticalInput < 0)
+        else if(verticalInput < 0)
         {
-            GameManager.Instance.localPlayer.isWalking.Value = 2;
+            player.isWalking.Value = 2;
         }
         else
         {
-            GameManager.Instance.localPlayer.isWalking.Value = 0;
+            player.isWalking.Value = 0;
         }
 
         // when to jump

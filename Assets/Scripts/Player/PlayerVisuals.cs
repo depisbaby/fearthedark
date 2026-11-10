@@ -1,3 +1,4 @@
+using Unity.Services.Lobbies.Models;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -40,6 +41,12 @@ public class PlayerVisuals : MonoBehaviour
 
     void Animations()
     {
+        if (player.isDead.Value)
+        {
+            anim.SetBool("dead", true);
+            anim.SetBool("running", false);
+            return;
+        }
 
         if(player.isWalking.Value == 1)
         {
@@ -58,7 +65,7 @@ public class PlayerVisuals : MonoBehaviour
 
         Vector3 lookingDir = new Vector3(player.lookingDirection.Value.x, 0, player.lookingDirection.Value.z);
         playerModelBase.transform.LookAt(playerModelBase.transform.position + lookingDir);
-        anim.SetBool("dead", player.isDead.Value);
+        //anim.SetBool("dead", player.isDead.Value);
         anim.SetBool("crouching", player.isCrouching.Value);
 
     }

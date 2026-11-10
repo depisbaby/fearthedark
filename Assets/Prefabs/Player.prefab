@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2277819170
+  GlobalObjectIdHash: 403118887
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -213,8 +213,8 @@ MonoBehaviour:
   heldByLocal: []
   footStepsAudioSource: {fileID: 1543250866884765800}
   screenSpaceMaterial: {fileID: 2100000, guid: 0f27dc6c1a8ad4f41826b89e8d4b6fa9, type: 2}
-  normalColor: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 0}
-  huntingColor: {r: 0.3301887, g: 0, b: 0, a: 0}
+  normalColor: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
+  huntingColor: {r: 0.3301887, g: 0, b: 0, a: 1}
   safetyLevel: 10
 --- !u!114 &3696002332275214914
 MonoBehaviour:

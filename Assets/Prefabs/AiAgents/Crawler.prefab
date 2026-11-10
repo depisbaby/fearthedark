@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 596548865359182917}
   - component: {fileID: 2915349249597577839}
   - component: {fileID: 1321615512362911241}
+  - component: {fileID: 6822479643543993369}
   m_Layer: 0
   m_Name: killbox
   m_TagString: Untagged
@@ -62,6 +63,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6822479643543993369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2844218097586799042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3ea894ad4aee664fb51f9c87a92b615, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CrawlerKillBox
 --- !u!1 &4791596703772344233
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,10 +122,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.3
-  m_Speed: 3.5
+  m_Speed: 4
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 480
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -215,6 +228,7 @@ MonoBehaviour:
   nav: {fileID: 0}
   state: 0
   anim: {fileID: 8888266083231984493}
+  hunted: {fileID: 0}
 --- !u!1 &7941012236881955787
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +326,15 @@ PrefabInstance:
       value: crawler
       objectReference: {fileID: 0}
     - target: {fileID: 1492250461950661982, guid: 43414747d1efa1d41b0543fa2ee49991, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1492250461950661982, guid: 43414747d1efa1d41b0543fa2ee49991, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f98a6ebbfb4c0c243bd6a4a184448863, type: 2}
+    - target: {fileID: 1492250461950661982, guid: 43414747d1efa1d41b0543fa2ee49991, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: f98a6ebbfb4c0c243bd6a4a184448863, type: 2}
     - target: {fileID: 5866666021909216657, guid: 43414747d1efa1d41b0543fa2ee49991, type: 3}

@@ -39,7 +39,6 @@ public class Player : NetworkBehaviour
     float ssEdge;
 
     bool isBlind;
-    bool isAlive;
 
     private void Awake()
     {
@@ -87,7 +86,9 @@ public class Player : NetworkBehaviour
         {
             if (isBlind)
             {
-                ssEdge = Mathf.Lerp(ssEdge, 100.0f, Time.deltaTime * 1);
+                ssColor = Color.Lerp(ssColor, huntingColor, Time.deltaTime * 3);
+                ssEdge = Mathf.MoveTowards(ssEdge, 6.0f, Time.deltaTime * 1);
+                screenSpaceMaterial.SetColor("_Color", ssColor);
                 screenSpaceMaterial.SetFloat("_Edge1", ssEdge);
                 return;
             }
@@ -102,7 +103,7 @@ public class Player : NetworkBehaviour
             else
             {
                 ssColor = Color.Lerp(ssColor, normalColor, Time.deltaTime * 3);
-                ssEdge = Mathf.Lerp(ssEdge, 5.0f, Time.deltaTime * 5);
+                ssEdge = Mathf.Lerp(ssEdge, 5.0f, Time.deltaTime);
                 screenSpaceMaterial.SetColor("_Color", ssColor);
                 screenSpaceMaterial.SetFloat("_Edge1", ssEdge);
             }
@@ -224,8 +225,18 @@ public class Player : NetworkBehaviour
         isBlind = blind;
     }
 
-    public void Kill()
+    void Kill()
     {
+        if (isDead.Value) return;
+        isDead.Value = true;
         SetBlind(true);
+    }
+
+    [ClientRpc]public void KillClientRPC()
+    {
+        if (IsOwner)
+        {
+            Kill();
+        }
     }
 }
