@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine.Rendering;
 using TMPro;
 using System.Threading.Tasks;
+using System;
 
 public class Player : NetworkBehaviour
 {
@@ -40,6 +41,8 @@ public class Player : NetworkBehaviour
 
     bool isBlind;
 
+    [SerializeField] private GameObject deathCamHolder;
+
     private void Awake()
     {
         
@@ -49,7 +52,7 @@ public class Player : NetworkBehaviour
     void Start()
     {
         
-        tick = Random.Range(0, 9999);
+        tick = UnityEngine.Random.Range(0, 9999);
         PlayerMovementTutorial movement = gameObject.GetComponent<PlayerMovementTutorial>();
         if (!IsOwner)
         {
@@ -84,14 +87,6 @@ public class Player : NetworkBehaviour
 
         if (IsOwner)
         {
-            if (isBlind)
-            {
-                ssColor = Color.Lerp(ssColor, huntingColor, Time.deltaTime * 3);
-                ssEdge = Mathf.MoveTowards(ssEdge, 6.0f, Time.deltaTime * 1);
-                screenSpaceMaterial.SetColor("_Color", ssColor);
-                screenSpaceMaterial.SetFloat("_Edge1", ssEdge);
-                return;
-            }
 
             if(safetyLevel <= 0)
             {
@@ -138,6 +133,16 @@ public class Player : NetworkBehaviour
         {
             GameManager.Instance.PlayerDisconnected(this);
         }
+    }
+
+    public void DropEverything()
+    {
+        foreach(Item item in heldByLocal)
+        {
+            item.SetLocalHold(null);
+        }
+
+        heldByLocal.Clear();
     }
 
     public void LocalDropItem(Item _item)
@@ -225,18 +230,32 @@ public class Player : NetworkBehaviour
         isBlind = blind;
     }
 
-    void Kill()
+    async void LocalKill()
     {
         if (isDead.Value) return;
         isDead.Value = true;
         SetBlind(true);
+        GameObject go = Instantiate(deathCamHolder);
+        go.transform.position = cameraPosition.transform.position;
+        go.transform.rotation = PlayerCam.Instance.gameObject.transform.rotation;
+        WorldCamera.Instance.BindTo(go);
+        Rigidbody rb = go.GetComponent<Rigidbody>();
+        Rigidbody rb2 = GetComponent<Rigidbody>();
+        rb.linearVelocity = rb2.linearVelocity;
+        DropEverything();
+
+        await Task.Delay(2000);
+
+        HUD.Instance.SetBlind(true);
+
+        GameManager.Instance.ExitToMainMenu("");
     }
 
     [ClientRpc]public void KillClientRPC()
     {
         if (IsOwner)
         {
-            Kill();
+            LocalKill();
         }
     }
 }

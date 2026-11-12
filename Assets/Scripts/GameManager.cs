@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
@@ -30,61 +31,10 @@ public class GameManager : NetworkBehaviour
     {
         Physics.IgnoreLayerCollision(0, 7);
         Physics.IgnoreLayerCollision(0, 9);
-        //DevModePrep();
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
-    async void DevModePrep()
-    {
-        
-        if (GameManager.Instance.buildAutoHost)
-        {
-            if (!Application.isEditor)
-            {
-                SessionManager.Instance.AttemptHosting();
-
-                while(RelayScript.Instance.currentJoinCode == "")
-                {
-                    await Task.Yield();
-                }
-                Debug.Log("GGGGGG");
-                joiningCodeTmp.gameObject.SetActive(true);
-                joiningCodeTmp.text = RelayScript.Instance.currentJoinCode;
-                
-
-                while (localPlayer == null)
-                {
-                    await Task.Yield();
-                }
-                await Task.Delay(1000);
-                localPlayer.transform.position = new Vector3(0, 1, -2);
-
-            }
-        }
-        if (GameManager.Instance.editorAutoHost)
-        {
-            if (Application.isEditor)
-            {
-                SessionManager.Instance.AttemptHosting();
-
-                while (RelayScript.Instance.currentJoinCode == "")
-                {
-                    await Task.Yield();
-                }
-                Debug.Log("GGGGGG");
-                joiningCodeTmp.gameObject.SetActive(true);
-                joiningCodeTmp.text = RelayScript.Instance.currentJoinCode;
-
-
-                while (localPlayer == null)
-                {
-                    await Task.Yield();
-                }
-                await Task.Delay(1000);
-                localPlayer.transform.position = new Vector3(0, 1, -2);
-
-            }
-        }
-    }
 
     // Update is called once per frame
     void Update()
@@ -96,8 +46,7 @@ public class GameManager : NetworkBehaviour
 
         MainMenu.Instance.Close();
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        
 
         if (IsServer)
         {
@@ -121,10 +70,34 @@ public class GameManager : NetworkBehaviour
                 }
             }
 
-
-
         }
 
+        await Task.Delay(2000);
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        HUD.Instance.SetBlind(false);
+    }
+
+    public void ExitToMainMenu(string menuMessage)
+    {
+        if (IsHost)
+        {
+            HostKickAllClientRpc();
+        }
+
+
+
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
+        );
+
+    }
+
+    [ClientRpc]void HostKickAllClientRpc()
+    {
+        if (IsHost) return;
+        ExitToMainMenu("Disconnected: Host left the game.");
     }
 
     public void PlayerJoined(Player player)

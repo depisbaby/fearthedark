@@ -8,12 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MasterScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MovementTestScene.unity
     guid: d9bddddf4a21d714d82c75bf813e62b7
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MovementTestScene Lauri.unity
-    guid: 1005f4d6b4defcb439fd6e2aeece98aa
+    guid: 00300241c6a951242b37f6b12ca321a4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
