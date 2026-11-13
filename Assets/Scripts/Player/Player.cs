@@ -23,21 +23,15 @@ public class Player : NetworkBehaviour
 
     [Header("Local Variables")]
     [SerializeField] Transform orientation;
-    [SerializeField] Transform cameraPosition;
-    [SerializeField] PlayerVisuals playerVisuals;
+    public Transform cameraPosition;
+    public PlayerVisuals playerVisuals;
 
     public List<Item> heldByLocal = new List<Item>();
 
     [SerializeField] AudioSource footStepsAudioSource;
-    [SerializeField] Material screenSpaceMaterial;
-
-    [SerializeField] Color normalColor;
-    [SerializeField] Color huntingColor;
     public int safetyLevel;
     bool isInSafety;
     int tick;
-    Color ssColor;
-    float ssEdge;
 
     bool isBlind;
 
@@ -62,45 +56,36 @@ public class Player : NetworkBehaviour
         else
         {
 
-            screenSpaceMaterial.SetColor("_Color", normalColor);
-            screenSpaceMaterial.SetFloat("_Edge1", 5.0f);
+            OneBitFilter.Instance.SetFilterNormal(true);
             PlayerCam.Instance.orientation = orientation;
             MoveCamera.Instance.cameraPosition = cameraPosition;
             playerVisuals.ModelHideFromLocal();
             SessionManager.Instance.playerPrefabDone = true;
             GameManager.Instance.localPlayer = this;
+            GameManager.Instance.AddPlayersAlreadyConnected();
 
         }
 
-        if (IsServer)
-        {
-            GameManager.Instance.PlayerJoined(this);
-        }
-
-
+        GameManager.Instance.PlayerJoined(this);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isDead.Value) return;
+
         Footsteps();
 
         if (IsOwner)
         {
-
             if(safetyLevel <= 0)
             {
-                ssColor = Color.Lerp(ssColor, huntingColor, Time.deltaTime * 3);
-                ssEdge = Mathf.Lerp(ssEdge, 0.5f, Time.deltaTime * 5);
-                screenSpaceMaterial.SetColor("_Color", ssColor);
-                screenSpaceMaterial.SetFloat("_Edge1", ssEdge);
+                OneBitFilter.Instance.SetFilterHunted(false);
             }
             else
             {
-                ssColor = Color.Lerp(ssColor, normalColor, Time.deltaTime * 3);
-                ssEdge = Mathf.Lerp(ssEdge, 5.0f, Time.deltaTime);
-                screenSpaceMaterial.SetColor("_Color", ssColor);
-                screenSpaceMaterial.SetFloat("_Edge1", ssEdge);
+                OneBitFilter.Instance.SetFilterNormal(false);
             }
         }
     }
@@ -248,7 +233,25 @@ public class Player : NetworkBehaviour
 
         HUD.Instance.SetBlind(true);
 
-        GameManager.Instance.ExitToMainMenu("");
+        if (GameManager.Instance.players.Count > 1) { 
+
+            foreach(Player player in GameManager.Instance.players)
+            {
+                if(!player.isDead.Value && player != this)
+                {
+                    
+                    WorldCamera.Instance.StartSpectating(player);
+                    HUD.Instance.SetBlind(false);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            GameManager.Instance.ExitToMainMenu("");
+
+        }
+
     }
 
     [ClientRpc]public void KillClientRPC()

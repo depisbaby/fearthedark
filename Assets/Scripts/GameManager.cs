@@ -102,21 +102,37 @@ public class GameManager : NetworkBehaviour
 
     public void PlayerJoined(Player player)
     {
+        players.Add(player);
+
         if (IsServer)
         {
-            players.Add(player);
-
             if(MapManager.Instance.startingRoom != null)
             {
                 player.TeleportClientRpc(MapManager.Instance.startingRoom.transform.position + new Vector3(UnityEngine.Random.Range(-1.0f, 1.0f), 2, UnityEngine.Random.Range(-1.0f, 1.0f)));
             }
         }
+
+        
     }
 
     public void PlayerDisconnected(Player player) {
-        if (IsServer)
+        
+        players.Remove(player);
+    }
+
+    public void AddPlayersAlreadyConnected()
+    {
+        Player[] _players = FindObjectsByType<Player>(
+            FindObjectsSortMode.None
+            );
+
+        foreach (Player item in _players)
         {
-            players.Remove(player);
+            if(item != localPlayer)
+            {
+                players.Add(item);
+            }
         }
     }
+
 }

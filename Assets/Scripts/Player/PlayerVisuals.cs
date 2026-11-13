@@ -39,6 +39,11 @@ public class PlayerVisuals : MonoBehaviour
         renderer.sharedMaterials = materials;
     }
 
+    public void ModelShowToLocal()
+    {
+
+    }
+
     void Animations()
     {
         if (player.isDead.Value)
