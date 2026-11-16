@@ -126,6 +126,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: desk_drawer (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 3866925437043945894, guid: c7d39cadcf8338e47a2f669dc0956010, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e35ce1b5ad70289408a3273ec7d3438c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -188,6 +192,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: desk_drawer (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3866925437043945894, guid: c7d39cadcf8338e47a2f669dc0956010, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e35ce1b5ad70289408a3273ec7d3438c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -250,6 +258,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: desk_drawer (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3866925437043945894, guid: c7d39cadcf8338e47a2f669dc0956010, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e35ce1b5ad70289408a3273ec7d3438c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -312,6 +324,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: desk_drawer (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3866925437043945894, guid: c7d39cadcf8338e47a2f669dc0956010, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e35ce1b5ad70289408a3273ec7d3438c, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

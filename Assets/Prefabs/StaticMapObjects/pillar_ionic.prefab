@@ -73,6 +73,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1756794452368826564}
     m_Modifications:
+    - target: {fileID: 5705319341456990581, guid: 794a063afac092a4b86479562d332313, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 755e1b721ef37b04ebafaf2487242a27, type: 2}
     - target: {fileID: 6065682147918348448, guid: 794a063afac092a4b86479562d332313, type: 3}
       propertyPath: m_Name
       value: pillar_top_ionic
@@ -175,6 +179,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f5c6f4ba2b3542249a6940f6e434b121, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 755e1b721ef37b04ebafaf2487242a27, type: 2}
     - target: {fileID: 919132149155446097, guid: f5c6f4ba2b3542249a6940f6e434b121, type: 3}
       propertyPath: m_Name
       value: pillar_ionic
