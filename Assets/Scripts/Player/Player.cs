@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine.Rendering;
 using TMPro;
 using System.Threading.Tasks;
+using System;
 
 public class Player : NetworkBehaviour
 {
@@ -22,23 +23,19 @@ public class Player : NetworkBehaviour
 
     [Header("Local Variables")]
     [SerializeField] Transform orientation;
-    [SerializeField] Transform cameraPosition;
-    [SerializeField] PlayerVisuals playerVisuals;
+    public Transform cameraPosition;
+    public PlayerVisuals playerVisuals;
 
     public List<Item> heldByLocal = new List<Item>();
 
     [SerializeField] AudioSource footStepsAudioSource;
-    [SerializeField] Material screenSpaceMaterial;
-
-    [SerializeField] Color normalColor;
-    [SerializeField] Color huntingColor;
     public int safetyLevel;
     bool isInSafety;
     int tick;
-    Color ssColor;
-    float ssEdge;
 
     bool isBlind;
+
+    [SerializeField] private GameObject deathCamHolder;
 
     private void Awake()
     {
@@ -49,7 +46,7 @@ public class Player : NetworkBehaviour
     void Start()
     {
         
-        tick = Random.Range(0, 9999);
+        tick = UnityEngine.Random.Range(0, 9999);
         PlayerMovementTutorial movement = gameObject.GetComponent<PlayerMovementTutorial>();
         if (!IsOwner)
         {
@@ -59,53 +56,36 @@ public class Player : NetworkBehaviour
         else
         {
 
-            screenSpaceMaterial.SetColor("_Color", normalColor);
-            screenSpaceMaterial.SetFloat("_Edge1", 5.0f);
+            OneBitFilter.Instance.SetFilterNormal(true);
             PlayerCam.Instance.orientation = orientation;
             MoveCamera.Instance.cameraPosition = cameraPosition;
             playerVisuals.ModelHideFromLocal();
             SessionManager.Instance.playerPrefabDone = true;
             GameManager.Instance.localPlayer = this;
+            GameManager.Instance.AddPlayersAlreadyConnected();
 
         }
 
-        if (IsServer)
-        {
-            GameManager.Instance.PlayerJoined(this);
-        }
-
-
+        GameManager.Instance.PlayerJoined(this);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isDead.Value) return;
+
         Footsteps();
 
         if (IsOwner)
         {
-            if (isBlind)
-            {
-                ssColor = Color.Lerp(ssColor, huntingColor, Time.deltaTime * 3);
-                ssEdge = Mathf.MoveTowards(ssEdge, 6.0f, Time.deltaTime * 1);
-                screenSpaceMaterial.SetColor("_Color", ssColor);
-                screenSpaceMaterial.SetFloat("_Edge1", ssEdge);
-                return;
-            }
-
             if(safetyLevel <= 0)
             {
-                ssColor = Color.Lerp(ssColor, huntingColor, Time.deltaTime * 3);
-                ssEdge = Mathf.Lerp(ssEdge, 0.5f, Time.deltaTime * 5);
-                screenSpaceMaterial.SetColor("_Color", ssColor);
-                screenSpaceMaterial.SetFloat("_Edge1", ssEdge);
+                OneBitFilter.Instance.SetFilterHunted(false);
             }
             else
             {
-                ssColor = Color.Lerp(ssColor, normalColor, Time.deltaTime * 3);
-                ssEdge = Mathf.Lerp(ssEdge, 5.0f, Time.deltaTime);
-                screenSpaceMaterial.SetColor("_Color", ssColor);
-                screenSpaceMaterial.SetFloat("_Edge1", ssEdge);
+                OneBitFilter.Instance.SetFilterNormal(false);
             }
         }
     }
@@ -138,6 +118,16 @@ public class Player : NetworkBehaviour
         {
             GameManager.Instance.PlayerDisconnected(this);
         }
+    }
+
+    public void DropEverything()
+    {
+        foreach(Item item in heldByLocal)
+        {
+            item.SetLocalHold(null);
+        }
+
+        heldByLocal.Clear();
     }
 
     public void LocalDropItem(Item _item)
@@ -225,18 +215,50 @@ public class Player : NetworkBehaviour
         isBlind = blind;
     }
 
-    void Kill()
+    async void LocalKill()
     {
         if (isDead.Value) return;
         isDead.Value = true;
         SetBlind(true);
+        GameObject go = Instantiate(deathCamHolder);
+        go.transform.position = cameraPosition.transform.position;
+        go.transform.rotation = PlayerCam.Instance.gameObject.transform.rotation;
+        WorldCamera.Instance.BindTo(go);
+        Rigidbody rb = go.GetComponent<Rigidbody>();
+        Rigidbody rb2 = GetComponent<Rigidbody>();
+        rb.linearVelocity = rb2.linearVelocity;
+        DropEverything();
+
+        await Task.Delay(2000);
+
+        HUD.Instance.SetBlind(true);
+
+        if (GameManager.Instance.players.Count > 1) { 
+
+            foreach(Player player in GameManager.Instance.players)
+            {
+                if(!player.isDead.Value && player != this)
+                {
+                    
+                    WorldCamera.Instance.StartSpectating(player);
+                    HUD.Instance.SetBlind(false);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            GameManager.Instance.ExitToMainMenu("");
+
+        }
+
     }
 
     [ClientRpc]public void KillClientRPC()
     {
         if (IsOwner)
         {
-            Kill();
+            LocalKill();
         }
     }
 }
